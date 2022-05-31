@@ -5,6 +5,7 @@ import { userValidationSchema } from "./Validation/FormValidation";
 
 function App() {
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -13,12 +14,14 @@ function App() {
 
   const inputHandler = (e) => {
     setError(null);
+    setSuccess(null);
     setInput({ ...input, [e.target.name]: e.target.value });
   };
   const createUser = async (e) => {
     e.preventDefault();
     try {
       await userValidationSchema.validate(input);
+      setSuccess("Success");
     } catch (Err) {
       const { errors } = Err;
       setError(errors);
@@ -58,6 +61,9 @@ function App() {
           />
           <button>Submit</button>
           {error && <p style={{ color: "red", text: "center" }}>{error}</p>}
+          {success && (
+            <p style={{ color: "green", text: "center" }}>{success}</p>
+          )}
         </Box>
       </form>
     </Container>
